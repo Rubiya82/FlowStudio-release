@@ -1,0 +1,84 @@
+FLOW STUDIO END USER LICENSE AGREEMENT
+Version 1.0 (2026-11-21)
+
+Copyright (c) 2026 Samsung Electronics Co., Ltd. All rights reserved.
+
+This agreement applies to Flow Studio, including FlowStudio.exe, flowctl.exe,
+flow_license.dll, the built-in AI authoring and validation tools (MCP tools,
+schemas, skills and the validation harness) and their updates (together, the
+"Software"). The Flow runtime (flow_core.dll) and the MFC SDK are covered by
+LICENSE-Runtime-SDK.txt, and the manuals by LICENSE-Documentation.txt.
+
+1. License grant
+   Subject to this agreement and a valid license file (*.fslic) issued by
+   Samsung Electronics Co., Ltd. or an issuer it authorizes (the "Licensor"),
+   the licensee may install and use the Software on the device identified by
+   that license file, for the term and with the features stated in it
+   (perpetual, term-limited or maintenance-limited). Evaluation licenses may
+   be used only to evaluate the Software and cannot sign deployment packages.
+
+2. Updates
+   Updates published in the Licensor's public release repository may be
+   installed on licensed devices. A maintenance-limited license covers the
+   versions built on or before its maintenance date.
+
+3. Restrictions
+   The licensee must not:
+   (a) redistribute, sell, rent, lend or sublicense the Software or a license
+       file, except that the unmodified installation archive may be copied
+       inside the licensee's organization;
+   (b) circumvent, disable or tamper with license checks, device binding,
+       package signatures or encryption;
+   (c) reverse engineer, decompile or disassemble the Software, except to the
+       extent applicable law expressly permits it despite this restriction;
+   (d) use the Software on a device other than the licensed device.
+
+4. Customer content
+   Flow projects (project.json, *.flow.json, *.lua) and deployment packages
+   created by the licensee belong to the licensee. The deployment package
+   format and its encryption are part of the Software. Packages signed with a
+   license remain usable after that license expires or is revoked.
+
+5. AI features
+   The AI tools produce candidates only. Applying, signing or running a
+   candidate on equipment requires a person's approval. Sending project data
+   to a cloud AI service is the licensee's responsibility.
+
+6. Safety and no warranty
+   The Software is provided "AS IS", without warranty of any kind, express or
+   implied, including fitness for a particular purpose. Simulation and
+   validation results are not a safety approval of any equipment. Equipment
+   interlocks remain the responsibility of the equipment program and its
+   makers. Applying a flow to real equipment requires approval by the
+   responsible persons and a separate commissioning procedure.
+
+7. Limitation of liability
+   To the maximum extent permitted by law, the Licensor is not liable for any
+   indirect, incidental or consequential damages, loss of production, data or
+   profit, or equipment damage arising from the use of the Software.
+
+8. Termination
+   This license ends automatically if the licensee breaches it. On termination
+   the licensee must stop using the Software. Sections 4, 6 and 7 survive.
+
+9. Third-party components
+   Third-party components remain under their own licenses. See
+   THIRD-PARTY-NOTICES.txt.
+
+Contact: Issues of the public release repository
+         (https://github.com/Rubiya82/FlowStudio-release/issues)
+License issuing: Seokwon Choi
+
+---------------------------------------------------------------------------
+요약 (참고용, 위 영문이 우선한다)
+- 인증 파일(*.fslic)이 가리키는 기기에서, 그 파일에 적힌 기한·기능 범위로 사용한다.
+  형태는 영구·기한형·유지보수 기한. 평가 라이선스는 평가용이며 배포본 서명이 안 된다.
+- 공개 release 저장소의 업데이트를 설치할 수 있다. 유지보수 기한형은 그 날짜까지 빌드된 버전.
+- 금지: 재배포·판매·대여(조직 안에서 설치 ZIP 복사는 허용), 라이선스 검사·서명·암호화 우회,
+  역공학(법이 명시적으로 허용하는 범위 제외), 인증받지 않은 기기에서 사용.
+- 고객이 만든 프로젝트와 배포본은 고객 소유. 배포본 형식·암호화는 제품의 일부.
+  라이선스가 만료·철회돼도 이미 서명한 배포본은 계속 실행된다.
+- AI는 후보만 만든다. 반영·서명·설비 실행은 사람이 승인한다. 클라우드 AI 전송은 사용자 책임.
+- 무보증. 시뮬레이션·검증 결과는 설비 안전 승인이 아니다. 인터록은 설비 프로그램의 책임.
+- 간접·결과적 손해에 책임지지 않는다. 위반하면 라이선스는 자동 종료된다.
+- 문의: 공개 release 저장소 Issues. 발급 담당: Seokwon Choi.
