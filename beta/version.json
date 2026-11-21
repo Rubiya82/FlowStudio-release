@@ -1,0 +1,27 @@
+{
+  "appDir": "FlowStudio",
+  "assetName": "FlowStudio-1.0.0-beta.1-win-x64.zip",
+  "channel": "beta",
+  "downloadUrl": "https://github.com/Rubiya82/FlowStudio-release/releases/download/v1.0.0-beta.1/FlowStudio-1.0.0-beta.1-win-x64.zip",
+  "exePath": "FlowStudio/FlowStudio.exe",
+  "exeSha256": "d63c58f96b80d73eae7f2ea1dd65b7cba40a8250f1cef9d7e0559490aba31628",
+  "exeSizeBytes": 236544,
+  "filesCount": 333,
+  "filesSha256": "d9c439c2b593611187f522e4a49cd58766732ed519e1e3b5af329e52bac4a022",
+  "keyId": "flowstudio-release-2026",
+  "platform": "windows-x64",
+  "product": "FlowStudio",
+  "published": true,
+  "publishedAt": "2026-11-21T12:18:26+09:00",
+  "releaseNotes": {
+    "en": "First beta: graph and Lua editing, simulator, equipment attach and debugging (local and remote TLS), device license, signed equipment packages.",
+    "ko": "첫 베타. 그래프·Lua 편집, 시뮬레이터, 설비 접속·디버깅(같은 PC·원격 TLS), 기기 라이선스, 서명된 설비 배포본."
+  },
+  "releaseTag": "v1.0.0-beta.1",
+  "schemaVersion": 1,
+  "sha256": "83e5a992fe7eb8e6cdab9be4922325364be19efd1572bbd3a98b8d92918b10b3",
+  "signature": "870a11ace16db0bc33ba36deeae6e653af111875dc5cef0bf00de203e136e3e2570dfd3c29e23d41cc65657036170b03c30426b4930c65023e121e82789e160d",
+  "signatureAlgorithm": "ecdsa-p256-sha256",
+  "sizeBytes": 73114763,
+  "version": "1.0.0-beta.1"
+}
