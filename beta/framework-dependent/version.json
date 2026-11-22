@@ -1,28 +1,28 @@
 {
   "appDir": "FlowStudio",
-  "assetName": "FlowStudio-1.0.0-beta.3-win-x64.zip",
+  "assetName": "FlowStudio-1.0.0-beta.4-win-x64.zip",
   "channel": "beta",
   "deployment": "framework-dependent",
-  "downloadUrl": "https://github.com/Rubiya82/FlowStudio-release/releases/download/v1.0.0-beta.3/FlowStudio-1.0.0-beta.3-win-x64.zip",
+  "downloadUrl": "https://github.com/Rubiya82/FlowStudio-release/releases/download/v1.0.0-beta.4/FlowStudio-1.0.0-beta.4-win-x64.zip",
   "exePath": "FlowStudio/FlowStudio.exe",
-  "exeSha256": "75dbb7172586f6528f33ac485e5e6ca344eaf0963b5588e2a2e9c4141f01d9c0",
+  "exeSha256": "79bf6ec5770c20c46514000c27699119a03fc97ec4aef54804fb82b2f2946aba",
   "exeSizeBytes": 236544,
   "filesCount": 83,
-  "filesSha256": "0dacb61e61151dd1be116f807835074229cd141be3b0cef02f68404ff8d21c96",
+  "filesSha256": "dfa57d84a3e16b78af2c6cec4cc6f4d2ec7233bb4b0d32fe664b9831997c5427",
   "keyId": "flowstudio-release-2026",
   "platform": "windows-x64",
   "product": "FlowStudio",
   "published": true,
-  "publishedAt": "2026-11-22T18:10:45+09:00",
+  "publishedAt": "2026-11-22T23:04:52+09:00",
   "releaseNotes": {
-    "en": "",
-    "ko": "경량 배포판입니다. .NET 10 Desktop Runtime(x64)이 필요합니다."
+    "en": "Added graph undo and redo and a save confirmation before closing.",
+    "ko": "그래프 실행 취소·다시 실행과 종료 전 저장 확인을 추가했습니다."
   },
-  "releaseTag": "v1.0.0-beta.3",
+  "releaseTag": "v1.0.0-beta.4",
   "schemaVersion": 1,
-  "sha256": "e9a8afe3520b0f3b3fe3804940a2de2222c3634dbeecf725d38e391a0abd3966",
-  "signature": "38cefa7f379995ec63240d8edbcdb8266a960f00a2e5115be5616405dd02e20b008ffe97c025fe71509f936816bbce93184055b030072ee089f34d77cef69c7e",
+  "sha256": "72c62dce226539931899b3fee4d470ecba8a6e4024bc076074df52c3a3f4f742",
+  "signature": "5274c822979fd0c6fe586a921cb9eb735b7000ce0e591e19804d44303f75ef224c4ba2f6051985867bb05671ffa0c62d7d9747921a744ba9b2f2996ffade9a7c",
   "signatureAlgorithm": "ecdsa-p256-sha256",
-  "sizeBytes": 3357108,
-  "version": "1.0.0-beta.3"
+  "sizeBytes": 3367513,
+  "version": "1.0.0-beta.4"
 }
