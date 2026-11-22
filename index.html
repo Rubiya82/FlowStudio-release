@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1522">
+  <meta name="description" content="Flow Studio — 설비 공정 시퀀스를 그래프와 Lua로 만들고, 시뮬레이터로 돌리고, 운전 중인 설비에 붙어 디버깅하는 Windows 개발 도구.">
+  <meta property="og:title" content="Flow Studio — Equipment sequences you can see">
+  <meta property="og:description" content="그래프로 그리고, 바로 돌리고, 그 자리에서 고칩니다. 기존 MFC 설비 프로그램에 그대로 붙는 시퀀스 엔진과 편집기·디버거.">
+  <meta property="og:type" content="website">
+  <title>Flow Studio — Equipment sequences you can see</title>
+  <link rel="icon" href="assets/flowstudio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-ko="본문으로 이동" data-en="Skip to content">본문으로 이동</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav-wrap" aria-label="주 메뉴">
+      <a class="brand" href="#top" aria-label="Flow Studio"><img src="assets/flowstudio.svg" width="34" height="34" alt=""><span>Flow Studio<span class="brand-caption">Equipment Sequence Platform</span></span></a>
+      <div class="nav-links">
+        <a href="#how" data-ko="동작 방식" data-en="How it works">동작 방식</a>
+        <a href="#features" data-ko="주요 기능" data-en="Features">주요 기능</a>
+        <a href="#debug" data-ko="디버깅" data-en="Debugging">디버깅</a>
+        <a href="#equipment" data-ko="설비 연결" data-en="Equipment">설비 연결</a>
+        <a href="#faq" data-ko="궁금한 점" data-en="FAQ">궁금한 점</a>
+      </div>
+      <button class="language-button" id="language" type="button" aria-label="Switch to English">EN</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 1. Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-heading">
+      <div class="section-width hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-ko="설비 시퀀스 편집기 · 시뮬레이터 · 디버거" data-en="Sequence editor · Simulator · Debugger">설비 시퀀스 편집기 · 시뮬레이터 · 디버거</p>
+          <h1 id="hero-heading"><span data-ko="그리고, 돌리고," data-en="Draw it. Run it.">그리고, 돌리고,</span><br><span class="accent" data-ko="그 자리에서 고친다." data-en="Fix it on the spot.">그 자리에서 고친다.</span></h1>
+          <p class="lead" data-ko="Flow Studio는 설비의 공정 시퀀스를 그래프와 Lua 함수로 만드는 도구입니다. switch 문으로 흩어져 있던 스레드 단계를 한 장의 흐름으로 보고, 시뮬레이터로 먼저 돌려 보고, 운전 중인 설비에 붙어 멈추고 들여다보고 고칩니다. 설비 프로그램을 다시 빌드하지 않고도요." data-en="Flow Studio builds equipment process sequences from graphs and Lua functions. See thread steps that used to hide in switch statements as one flow, run them in the simulator first, then attach to running equipment to pause, inspect and fix — without rebuilding the equipment program.">Flow Studio는 설비의 공정 시퀀스를 그래프와 Lua 함수로 만드는 도구입니다. switch 문으로 흩어져 있던 스레드 단계를 한 장의 흐름으로 보고, 시뮬레이터로 먼저 돌려 보고, 운전 중인 설비에 붙어 멈추고 들여다보고 고칩니다. 설비 프로그램을 다시 빌드하지 않고도요.</p>
+          <ul class="hero-chips">
+            <li data-ko="Windows 10/11 x64" data-en="Windows 10/11 x64">Windows 10/11 x64</li>
+            <li data-ko="기존 MFC 설비 프로그램에 연결" data-en="Plugs into existing MFC programs">기존 MFC 설비 프로그램에 연결</li>
+            <li data-ko="오프라인 설비 PC 지원" data-en="Works on offline equipment PCs">오프라인 설비 PC 지원</li>
+          </ul>
+        </div>
+        <figure class="hero-shot">
+          <div class="window-frame"><span></span><span></span><span></span></div>
+          <img src="assets/studio-running.webp" width="1784" height="1035" alt="Flow Studio 실행 화면: 유닛 레인, 신호·잠금 연결선, 스레드별 타임라인" data-alt-ko="Flow Studio 실행 화면: 유닛 레인, 신호·잠금 연결선, 스레드별 타임라인" data-alt-en="Flow Studio running: unit lanes, signal and lock links, per-thread timeline">
+          <figcaption data-ko="실제 설비 예제(커버 조립 라인, 유닛 12개)를 시뮬레이터로 운전하는 화면" data-en="A real equipment example (cover assembly line, 12 units) running in the simulator">실제 설비 예제(커버 조립 라인, 유닛 12개)를 시뮬레이터로 운전하는 화면</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2. Intro band -->
+    <section class="intro-band">
+      <div class="section-width intro-grid reveal">
+        <div>
+          <p class="section-kicker" data-ko="왜 Flow Studio인가" data-en="Why Flow Studio">왜 Flow Studio인가</p>
+          <h2><span data-ko="스레드 안의 switch 문을," data-en="The switch statement inside your thread,">스레드 안의 switch 문을,</span><br><span data-ko="눈에 보이는 흐름으로." data-en="as a flow you can see.">눈에 보이는 흐름으로.</span></h2>
+        </div>
+        <div class="intro-points">
+          <p data-ko="설비 프로그램의 공정 로직은 대개 유닛마다 스레드 하나, 그 안의 긴 switch 문과 단계 번호로 되어 있습니다. 어디서 멈췄는지, 어느 유닛을 기다리는지 알려면 로그를 읽고 코드를 따라가야 하고, 작은 순서 변경에도 다시 빌드하고 설비를 세워야 합니다." data-en="Process logic in equipment programs is usually one thread per unit with a long switch statement and step numbers. Finding where it stopped or which unit it waits for means reading logs and tracing code, and even a small change in order means rebuilding and stopping the machine.">설비 프로그램의 공정 로직은 대개 유닛마다 스레드 하나, 그 안의 긴 switch 문과 단계 번호로 되어 있습니다. 어디서 멈췄는지, 어느 유닛을 기다리는지 알려면 로그를 읽고 코드를 따라가야 하고, 작은 순서 변경에도 다시 빌드하고 설비를 세워야 합니다.</p>
+          <p data-ko="Flow Studio에서는 같은 일을 유닛 레인 하나에 노드로 그립니다. 동작은 짧은 Lua 함수, 기다림과 갈래는 노드, 유닛 사이 약속은 신호와 잠금입니다. 장치 제어와 인터록은 지금 쓰는 설비 코드가 그대로 맡습니다." data-en="In Flow Studio the same work is a lane of nodes. Actions are short Lua functions, waits and branches are nodes, and agreements between units are signals and locks. Device control and interlocks stay in the equipment code you already have.">Flow Studio에서는 같은 일을 유닛 레인 하나에 노드로 그립니다. 동작은 짧은 Lua 함수, 기다림과 갈래는 노드, 유닛 사이 약속은 신호와 잠금입니다. 장치 제어와 인터록은 지금 쓰는 설비 코드가 그대로 맡습니다.</p>
+        </div>
+      </div>
+      <div class="section-width stats reveal">
+        <div><strong>≈2 ms</strong><span data-ko="유닛 스레드 주기" data-en="unit thread cycle">유닛 스레드 주기</span></div>
+        <div><strong>16</strong><span data-ko="프로젝트당 유닛(스레드)" data-en="units (threads) per project">프로젝트당 유닛(스레드)</span></div>
+        <div><strong>11</strong><span data-ko="노드 종류" data-en="node types">노드 종류</span></div>
+        <div><strong>0</strong><span data-ko="흐름 수정에 필요한 설비 프로그램 재빌드" data-en="equipment-program rebuilds to change a flow">흐름 수정에 필요한 설비 프로그램 재빌드</span></div>
+      </div>
+    </section>
+
+    <!-- 3. Interactive demo -->
+    <section class="section-width section-space" id="how" aria-labelledby="how-heading">
+      <div class="section-heading reveal">
+        <p class="eyebrow" data-ko="동작 방식" data-en="How it works">동작 방식</p>
+        <h2 id="how-heading" data-ko="두 유닛이 약속하며 움직이는 방법." data-en="How two units keep their promises.">두 유닛이 약속하며 움직이는 방법.</h2>
+        <p data-ko="공급 유닛이 커버를 내려놓으면 조립 유닛이 집어 갑니다. 아래 단계를 넘기며 토큰(지금 실행 위치)이 어떻게 흐르는지 보세요." data-en="The supply unit puts down a cover and the assembly unit picks it up. Step through and watch how the tokens (current positions) move.">공급 유닛이 커버를 내려놓으면 조립 유닛이 집어 갑니다. 아래 단계를 넘기며 토큰(지금 실행 위치)이 어떻게 흐르는지 보세요.</p>
+      </div>
+      <div class="demo reveal">
+        <div class="demo-stage">
+          <svg id="demo-svg" viewBox="0 0 640 400" role="img" aria-label="공급 유닛과 조립 유닛의 흐름 예">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="m-flow"/></marker>
+              <marker id="arrow-sig" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="m-sig"/></marker>
+            </defs>
+            <rect class="lane" x="20" y="16" width="270" height="368" rx="14"/>
+            <rect class="lane" x="350" y="16" width="270" height="368" rx="14"/>
+            <text class="lane-title" x="40" y="44">supply</text>
+            <text class="lane-title" x="370" y="44">assembly</text>
+            <g class="edges">
+              <line x1="155" y1="96" x2="155" y2="122" marker-end="url(#arrow)"/>
+              <line x1="155" y1="166" x2="155" y2="192" marker-end="url(#arrow)"/>
+              <line x1="155" y1="236" x2="155" y2="262" marker-end="url(#arrow)"/>
+              <line x1="485" y1="96" x2="485" y2="122" marker-end="url(#arrow)"/>
+              <line x1="485" y1="166" x2="485" y2="192" marker-end="url(#arrow)"/>
+              <line x1="485" y1="236" x2="485" y2="262" marker-end="url(#arrow)"/>
+              <path d="M155,306 C155,350 60,350 60,200 C60,90 120,80 140,80" class="loop" marker-end="url(#arrow)"/>
+              <path d="M485,306 C485,350 590,350 590,200 C590,90 530,80 505,80" class="loop" marker-end="url(#arrow)"/>
+            </g>
+            <path id="sig-line" class="sig" d="M232,214 C300,214 330,144 408,144" marker-end="url(#arrow-sig)"/>
+            <path id="lock-line" class="lock" d="M232,284 C300,300 330,300 408,284"/>
+            <g class="nodes">
+              <g id="n-s1"><rect x="80" y="58" width="150" height="38" rx="8"/><text x="94" y="76" class="kind">Step</text><text x="94" y="89">feed_cover()</text></g>
+              <g id="n-s2"><rect x="80" y="128" width="150" height="38" rx="8"/><text x="94" y="146" class="kind">Transition</text><text x="94" y="159">io.get('cover_in')</text></g>
+              <g id="n-s3"><rect x="80" y="198" width="150" height="38" rx="8"/><text x="94" y="216" class="kind sig-t">Signal</text><text x="94" y="229">cover_ready</text></g>
+              <g id="n-s4"><rect x="80" y="268" width="150" height="38" rx="8"/><text x="94" y="286" class="kind lock-t">Lock</text><text x="94" y="299">zone_pick</text></g>
+              <g id="n-a1"><rect x="410" y="58" width="150" height="38" rx="8"/><text x="424" y="76" class="kind">Step</text><text x="424" y="89">move_home()</text></g>
+              <g id="n-a2"><rect x="410" y="128" width="150" height="38" rx="8"/><text x="424" y="146" class="kind sig-t">WaitSignal</text><text x="424" y="159">cover_ready</text></g>
+              <g id="n-a3"><rect x="410" y="198" width="150" height="38" rx="8"/><text x="424" y="216" class="kind">Step</text><text x="424" y="229">pick_cover()</text></g>
+              <g id="n-a4"><rect x="410" y="268" width="150" height="38" rx="8"/><text x="424" y="286" class="kind lock-t">Lock</text><text x="424" y="299">zone_pick</text></g>
+            </g>
+            <circle id="tok-s" class="token" r="7" cx="80" cy="77"/>
+            <circle id="tok-a" class="token" r="7" cx="410" cy="77"/>
+          </svg>
+        </div>
+        <div class="demo-panel">
+          <ol class="demo-steps" id="demo-steps">
+            <li data-ko="두 유닛이 각자 스레드에서 시작합니다. 공급은 커버를 밀어 넣고, 조립은 원점으로 갑니다." data-en="Both units start on their own threads. Supply feeds a cover, assembly moves home.">두 유닛이 각자 스레드에서 시작합니다. 공급은 커버를 밀어 넣고, 조립은 원점으로 갑니다.</li>
+            <li data-ko="공급은 센서 조건이 참이 될 때까지 기다리고, 조립은 cover_ready 신호를 기다립니다. 기다리는 동안 스레드는 막히지 않습니다." data-en="Supply waits for the sensor condition, assembly waits for the cover_ready signal. Waiting never blocks the thread.">공급은 센서 조건이 참이 될 때까지 기다리고, 조립은 cover_ready 신호를 기다립니다. 기다리는 동안 스레드는 막히지 않습니다.</li>
+            <li data-ko="공급이 신호를 보내면 조립 토큰이 바로 다음 노드로 넘어가 커버를 집습니다. Studio에는 신호선이 굵게 표시됩니다." data-en="When supply raises the signal, the assembly token moves on and picks the cover. Studio draws the signal link in bold.">공급이 신호를 보내면 조립 토큰이 바로 다음 노드로 넘어가 커버를 집습니다. Studio에는 신호선이 굵게 표시됩니다.</li>
+            <li data-ko="같은 구역은 잠금으로 지킵니다. 한 유닛이 zone_pick을 잡으면 다른 유닛은 놓을 때까지 기다리고, 엇갈린 잠금은 엔진이 교착으로 알려 줍니다." data-en="A shared zone is guarded by a lock. While one unit holds zone_pick the other waits, and crossed locks are reported as a deadlock.">같은 구역은 잠금으로 지킵니다. 한 유닛이 zone_pick을 잡으면 다른 유닛은 놓을 때까지 기다리고, 엇갈린 잠금은 엔진이 교착으로 알려 줍니다.</li>
+          </ol>
+          <div class="demo-controls">
+            <button class="button button-ghost" id="demo-prev" type="button" data-ko="이전" data-en="Back">이전</button>
+            <button class="button" id="demo-next" type="button" data-ko="다음 단계" data-en="Next step">다음 단계</button>
+          </div>
+          <pre class="demo-code"><code><span class="c">-- supply.lua</span>
+<span class="k">function</span> feed_cover()
+  mech.call(<span class="s">"Supply.Push"</span>)      <span class="c">-- interlocks: equipment code</span>
+<span class="k">end</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Features -->
+    <section class="features-band" id="features" aria-labelledby="features-heading">
+      <div class="section-width section-space">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-ko="주요 기능" data-en="Features">주요 기능</p>
+          <h2 id="features-heading" data-ko="시퀀스의 처음부터 끝까지, 한 화면에서." data-en="From first node to running line, in one place.">시퀀스의 처음부터 끝까지, 한 화면에서.</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature reveal"><div class="icon">◇</div><h3 data-ko="그래프 편집기" data-en="Graph editor">그래프 편집기</h3><p data-ko="Start·Step·Transition·Branch·Fork·Join·Signal·WaitSignal·Lock·Unlock 노드를 팔레트에서 끌어다 놓고 잇습니다. 우클릭 메뉴, 복제(Ctrl+D), 격자 맞춤, 코멘트 상자, 확대·축소와 화면 이동까지." data-en="Drag Start, Step, Transition, Branch, Fork, Join, Signal, WaitSignal, Lock and Unlock nodes from the palette and wire them up. Right-click menu, duplicate (Ctrl+D), grid snap, comment boxes, zoom and pan.">Start·Step·Transition·Branch·Fork·Join·Signal·WaitSignal·Lock·Unlock 노드를 팔레트에서 끌어다 놓고 잇습니다. 우클릭 메뉴, 복제(Ctrl+D), 격자 맞춤, 코멘트 상자, 확대·축소와 화면 이동까지.</p></article>
+          <article class="feature reveal"><div class="icon">λ</div><h3 data-ko="Lua 5.4 스크립트" data-en="Lua 5.4 scripts">Lua 5.4 스크립트</h3><p data-ko="노드가 부르는 동작은 짧은 Lua 함수입니다. 장치 이름·인자를 아는 자동 완성, 문법 강조, 공통 라이브러리(lib/), 크게 편집 창. 저장하면 설비 프로그램을 다시 빌드할 필요가 없습니다." data-en="Actions behind nodes are short Lua functions, with completion that knows device names and arguments, syntax highlighting, shared libraries (lib/) and a large editor. Save — no equipment rebuild.">노드가 부르는 동작은 짧은 Lua 함수입니다. 장치 이름·인자를 아는 자동 완성, 문법 강조, 공통 라이브러리(lib/), 크게 편집 창. 저장하면 설비 프로그램을 다시 빌드할 필요가 없습니다.</p></article>
+          <article class="feature reveal"><div class="icon">∥</div><h3 data-ko="유닛 = 스레드" data-en="One unit, one thread">유닛 = 스레드</h3><p data-ko="유닛마다 운영체제 스레드 하나가 약 2 ms 주기로 돕니다. 유닛 안의 갈래(Fork)는 코루틴이라 같은 유닛에서 여러 동작을 함께 진행해도 잠금 걱정이 없습니다." data-en="Each unit runs on its own OS thread at about 2 ms. Forks inside a unit are coroutines, so parallel actions within a unit need no locking.">유닛마다 운영체제 스레드 하나가 약 2 ms 주기로 돕니다. 유닛 안의 갈래(Fork)는 코루틴이라 같은 유닛에서 여러 동작을 함께 진행해도 잠금 걱정이 없습니다.</p></article>
+          <article class="feature reveal"><div class="icon">⇄</div><h3 data-ko="유닛 사이 동기화" data-en="Synchronisation">유닛 사이 동기화</h3><p data-ko="신호, 잠금, 형식 있는 공유 변수(bool·int·double·string, 단위·설명·읽기 전용)로 유닛끼리 약속합니다. 원자적 비교 교환(cas)으로 한 번만 가져가기, 다시 시작해도 값을 지키는 retain까지." data-en="Units agree through signals, locks and typed shared variables (bool, int, double, string with units, descriptions and read-only access). Atomic compare-and-swap for take-once handshakes, and retain to keep values across restarts.">신호, 잠금, 형식 있는 공유 변수(bool·int·double·string, 단위·설명·읽기 전용)로 유닛끼리 약속합니다. 원자적 비교 교환(cas)으로 한 번만 가져가기, 다시 시작해도 값을 지키는 retain까지.</p></article>
+          <article class="feature reveal"><div class="icon">▶</div><h3 data-ko="내장 시뮬레이터" data-en="Built-in simulator">내장 시뮬레이터</h3><p data-ko="장치 명세(device manifest)에 적힌 동작·입출력·축을 시뮬레이터가 흉내 냅니다. 장비 없이 사무실 PC에서 흐름을 끝까지 돌리고, 동작 시간과 실패를 바꿔 가며 시험합니다." data-en="The simulator imitates the actions, I/O and axes listed in the device manifest. Run the whole flow on an office PC without hardware, varying durations and failures.">장치 명세(device manifest)에 적힌 동작·입출력·축을 시뮬레이터가 흉내 냅니다. 장비 없이 사무실 PC에서 흐름을 끝까지 돌리고, 동작 시간과 실패를 바꿔 가며 시험합니다.</p></article>
+          <article class="feature reveal"><div class="icon">⏱</div><h3 data-ko="스레드별 타임라인" data-en="Per-thread timeline">스레드별 타임라인</h3><p data-ko="유닛마다 어떤 노드에 몇 ms 머물렀는지 막대로 보여 주고, 신호·잠금이 오간 순간을 화살표로 잇습니다. 사이클 타임의 병목이 한눈에 보입니다." data-en="See how long each unit stayed on each node, with arrows where signals and locks passed between units. Cycle-time bottlenecks stand out at a glance.">유닛마다 어떤 노드에 몇 ms 머물렀는지 막대로 보여 주고, 신호·잠금이 오간 순간을 화살표로 잇습니다. 사이클 타임의 병목이 한눈에 보입니다.</p></article>
+          <article class="feature reveal"><div class="icon">✓</div><h3 data-ko="검증과 AI 후보" data-en="Validation and AI drafts">검증과 AI 후보</h3><p data-ko="검증 도구 flowctl이 형식·장치 이름·인자 범위·잠금 해제·결과 코드 확인을 검사하고 시험 계획을 돌립니다. AI가 만든 수정안은 후보 창에서 검증을 통과해야 사람이 승인해 반영하고, 언제든 되돌립니다." data-en="The flowctl validator checks format, device names, argument ranges, released locks and checked result codes, and runs test plans. AI-made changes land in a candidate window, must pass validation, are applied only on human approval and can always be reverted.">검증 도구 flowctl이 형식·장치 이름·인자 범위·잠금 해제·결과 코드 확인을 검사하고 시험 계획을 돌립니다. AI가 만든 수정안은 후보 창에서 검증을 통과해야 사람이 승인해 반영하고, 언제든 되돌립니다.</p></article>
+          <article class="feature reveal"><div class="icon">◐</div><h3 data-ko="오래 보는 화면을 위해" data-en="Made for long sessions">오래 보는 화면을 위해</h3><p data-ko="어두운·밝은 테마, 글자 크기 조절, 휠 없이 이동, 배경 격자 켜기·끄기. 설비 앞 작은 화면과 사무실 큰 모니터 모두에서 편하게." data-en="Dark and light themes, adjustable font size, wheel-free panning and a grid toggle — comfortable on a small screen at the machine or a big office monitor.">어두운·밝은 테마, 글자 크기 조절, 휠 없이 이동, 배경 격자 켜기·끄기. 설비 앞 작은 화면과 사무실 큰 모니터 모두에서 편하게.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Debugging -->
+    <section class="section-width section-space split" id="debug" aria-labelledby="debug-heading">
+      <div class="split-copy reveal">
+        <p class="eyebrow" data-ko="디버깅" data-en="Debugging">디버깅</p>
+        <h2 id="debug-heading"><span data-ko="Visual Studio처럼 멈추고," data-en="Pause like Visual Studio.">Visual Studio처럼 멈추고,</span><br><span data-ko="그래프처럼 봅니다." data-en="See it like a graph.">그래프처럼 봅니다.</span></h2>
+        <ul class="check-list">
+          <li data-ko="노드 중단점, Lua 줄 중단점, 공통 라이브러리 파일 중단점 — 라이브러리 한 줄에 걸면 그 함수를 쓰는 모든 유닛이 멈춥니다." data-en="Node breakpoints, Lua line breakpoints and library-file breakpoints — one line in a shared library stops every unit that uses it.">노드 중단점, Lua 줄 중단점, 공통 라이브러리 파일 중단점 — 라이브러리 한 줄에 걸면 그 함수를 쓰는 모든 유닛이 멈춥니다.</li>
+          <li data-ko="한 단계 실행: 노드 단위, Lua 들어가기·넘어가기·나오기." data-en="Stepping by node, and Lua step into, over and out.">한 단계 실행: 노드 단위, Lua 들어가기·넘어가기·나오기.</li>
+          <li data-ko="호출 스택, 지역·업밸류·전역 변수, 표(table) 펼쳐 보기, 감시 식." data-en="Call stack, locals, upvalues and globals, expandable tables, and watch expressions.">호출 스택, 지역·업밸류·전역 변수, 표(table) 펼쳐 보기, 감시 식.</li>
+          <li data-ko="유닛 하나만 일시정지하고 나머지는 계속 운전. 공유 변수 값을 그 자리에서 고쳐 써 보기." data-en="Pause a single unit while the rest keep running, and edit shared variable values on the spot.">유닛 하나만 일시정지하고 나머지는 계속 운전. 공유 변수 값을 그 자리에서 고쳐 써 보기.</li>
+          <li data-ko="유닛이 멈춘 이유를 문장과 숫자로: 실패한 장치 동작 이름, 인터록 등 오류 종류, 설비 프로그램의 원본 알람 코드." data-en="Why a unit faulted, in words and numbers: the failed device action, the error kind such as an interlock, and the equipment program's original alarm code.">유닛이 멈춘 이유를 문장과 숫자로: 실패한 장치 동작 이름, 인터록 등 오류 종류, 설비 프로그램의 원본 알람 코드.</li>
+        </ul>
+      </div>
+      <figure class="shot reveal">
+        <img src="assets/studio-debug.webp" width="1784" height="1035" loading="lazy" alt="Lua 줄 중단점에서 멈춘 유닛과 호출 스택·변수 창" data-alt-ko="Lua 줄 중단점에서 멈춘 유닛과 호출 스택·변수 창" data-alt-en="A unit stopped at a Lua line breakpoint, with call stack and variables">
+        <figcaption data-ko="조립 유닛만 줄 중단점에서 멈추고 다른 유닛은 계속 운전하는 화면" data-en="Only the assembly unit stops at a line breakpoint while the others keep running">조립 유닛만 줄 중단점에서 멈추고 다른 유닛은 계속 운전하는 화면</figcaption>
+      </figure>
+    </section>
+
+    <!-- 6. Equipment integration -->
+    <section class="dark-band" id="equipment" aria-labelledby="equipment-heading">
+      <div class="section-width section-space">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-ko="설비 연결" data-en="On the equipment">설비 연결</p>
+          <h2 id="equipment-heading" data-ko="지금 쓰는 설비 프로그램 안으로." data-en="Inside the equipment program you already run.">지금 쓰는 설비 프로그램 안으로.</h2>
+          <p data-ko="Flow 엔진은 C++ DLL 하나입니다. 기존 MFC 설비 프로그램이 같은 프로세스에서 불러 쓰고, 장치는 설비 프로그램이 이름으로 등록한 함수로만 움직입니다. 처음부터 다시 만들 필요 없이 유닛 하나씩 옮길 수 있습니다." data-en="The Flow engine is a single C++ DLL. Your MFC equipment program loads it in-process, and devices move only through functions the program registers by name. Move one unit at a time instead of starting over.">Flow 엔진은 C++ DLL 하나입니다. 기존 MFC 설비 프로그램이 같은 프로세스에서 불러 쓰고, 장치는 설비 프로그램이 이름으로 등록한 함수로만 움직입니다. 처음부터 다시 만들 필요 없이 유닛 하나씩 옮길 수 있습니다.</p>
+        </div>
+        <div class="arch reveal" aria-hidden="true">
+          <div class="arch-box studio"><b>Flow Studio</b><span data-ko="편집 · 시뮬레이션 · 디버그" data-en="edit · simulate · debug">편집 · 시뮬레이션 · 디버그</span></div>
+          <div class="arch-link"><span data-ko="같은 PC 또는 사내망 (암호화·페어링)" data-en="same PC or plant network (encrypted, paired)">같은 PC 또는 사내망 (암호화·페어링)</span></div>
+          <div class="arch-box machine"><b data-ko="MFC 설비 프로그램" data-en="MFC equipment program">MFC 설비 프로그램</b>
+            <div class="arch-inner"><span class="pill">flow_core.dll</span><span class="pill" data-ko="장치 등록 (이름 → 함수)" data-en="device registry (name → function)">장치 등록 (이름 → 함수)</span><span class="pill" data-ko="인터록 · 알람 · 화면" data-en="interlocks · alarms · screens">인터록 · 알람 · 화면</span></div>
+          </div>
+        </div>
+        <div class="equip-grid">
+          <article class="reveal"><h3 data-ko="유닛 하나씩 옮기기" data-en="Migrate unit by unit">유닛 하나씩 옮기기</h3><p data-ko="옮긴 유닛만 Flow가 맡고 나머지는 원래 스레드가 그대로 돕니다. 한 유닛은 한쪽만 제어하는 단일 제어권 규칙이라 두 시퀀스가 같은 장치를 동시에 움직이지 않습니다. 기존 단계 번호 표시(StepDisplay)와 알람 창도 그대로 씁니다." data-en="Flow drives only the units you moved; the rest keep their original threads. A single-owner rule means two sequences never drive the same device. Existing step displays and alarm dialogs keep working.">옮긴 유닛만 Flow가 맡고 나머지는 원래 스레드가 그대로 돕니다. 한 유닛은 한쪽만 제어하는 단일 제어권 규칙이라 두 시퀀스가 같은 장치를 동시에 움직이지 않습니다. 기존 단계 번호 표시(StepDisplay)와 알람 창도 그대로 씁니다.</p></article>
+          <article class="reveal"><h3 data-ko="운전 중인 설비에 붙기" data-en="Attach to a running machine">운전 중인 설비에 붙기</h3><p data-ko="설비 PC의 Studio는 바로, 개발자 노트북은 사내망으로 붙습니다. 원격 연결은 암호화되고, 설비 화면의 1회용 페어링 코드로 등록한 Studio만 들어옵니다. 설비 화면에서 보기 전용으로 바꾸거나 등록을 지울 수 있습니다." data-en="Studio on the equipment PC attaches directly; a developer laptop attaches over the plant network. Remote links are encrypted and only Studios paired with a one-time code from the equipment screen get in. The equipment can switch to view-only or remove a pairing at any time.">설비 PC의 Studio는 바로, 개발자 노트북은 사내망으로 붙습니다. 원격 연결은 암호화되고, 설비 화면의 1회용 페어링 코드로 등록한 Studio만 들어옵니다. 설비 화면에서 보기 전용으로 바꾸거나 등록을 지울 수 있습니다.</p></article>
+          <article class="reveal"><h3 data-ko="안전은 설비가 쥡니다" data-en="Safety stays with the machine">안전은 설비가 쥡니다</h3><p data-ko="인터록과 상태 검사는 엔진과 설비 코드에서 합니다. 장치 오류는 스크립트가 삼킬 수 없고 유닛을 멈춘 뒤 모든 동작을 세웁니다. 입력이 돌아와도 스스로 다시 시작하지 않으며, 시작·정지·모드 변경은 설비 프로그램만 할 수 있습니다." data-en="Interlocks and state checks run in the engine and the equipment code. Device errors cannot be swallowed by scripts; the unit faults and all motion stops. Nothing restarts by itself when inputs recover, and only the equipment program can start, stop or change modes.">인터록과 상태 검사는 엔진과 설비 코드에서 합니다. 장치 오류는 스크립트가 삼킬 수 없고 유닛을 멈춘 뒤 모든 동작을 세웁니다. 입력이 돌아와도 스스로 다시 시작하지 않으며, 시작·정지·모드 변경은 설비 프로그램만 할 수 있습니다.</p></article>
+          <article class="reveal"><h3 data-ko="서명된 배포본" data-en="Signed deployment packages">서명된 배포본</h3><p data-ko="설비 PC의 런타임은 Studio가 만든 서명된 배포본을 읽고, 파일이 하나라도 바뀌면 실행하지 않습니다. 운전 모드(Production)에서는 디버그 조작을 막아 실수로 설비를 세우지 않게 합니다." data-en="The runtime on the equipment PC reads signed deployment packages made by Studio and refuses to run if any file changed. Production mode blocks debug operations so nobody stops the line by accident.">설비 PC의 런타임은 Studio가 만든 서명된 배포본을 읽고, 파일이 하나라도 바뀌면 실행하지 않습니다. 운전 모드(Production)에서는 디버그 조작을 막아 실수로 설비를 세우지 않게 합니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Light theme + tour -->
+    <section class="section-width section-space split reverse" aria-labelledby="tour-heading">
+      <figure class="shot reveal">
+        <img src="assets/studio-light.webp" width="1784" height="1035" loading="lazy" alt="밝은 테마의 Flow Studio 전체 화면" data-alt-ko="밝은 테마의 Flow Studio 전체 화면" data-alt-en="Flow Studio in the light theme">
+      </figure>
+      <div class="split-copy reveal">
+        <p class="eyebrow" data-ko="화면 둘러보기" data-en="A quick tour">화면 둘러보기</p>
+        <h2 id="tour-heading" data-ko="필요한 것만, 제자리에." data-en="Everything in its place.">필요한 것만, 제자리에.</h2>
+        <dl class="tour">
+          <dt data-ko="왼쪽 · 노드 팔레트" data-en="Left · Node palette">왼쪽 · 노드 팔레트</dt><dd data-ko="흐름·조건·병렬·동기화로 묶은 노드를 검색하고 캔버스로 끌어다 놓습니다." data-en="Search grouped nodes and drag them onto the canvas.">흐름·조건·병렬·동기화로 묶은 노드를 검색하고 캔버스로 끌어다 놓습니다.</dd>
+          <dt data-ko="가운데 · 유닛 레인" data-en="Centre · Unit lanes">가운데 · 유닛 레인</dt><dd data-ko="유닛마다 레인 하나. 신호·잠금·공유 변수 연결선을 켜고 끄며 유닛 사이 관계를 봅니다. 운전 중에는 토큰 위치와 기다리는 이유가 노드에 보입니다." data-en="One lane per unit. Toggle signal, lock and variable links to see how units relate; while running, token positions and wait reasons appear on the nodes.">유닛마다 레인 하나. 신호·잠금·공유 변수 연결선을 켜고 끄며 유닛 사이 관계를 봅니다. 운전 중에는 토큰 위치와 기다리는 이유가 노드에 보입니다.</dd>
+          <dt data-ko="오른쪽 · 속성과 스크립트" data-en="Right · Properties and script">오른쪽 · 속성과 스크립트</dt><dd data-ko="선택한 노드의 함수·조건·타임아웃을 고치고, 그 유닛의 Lua 파일과 project.json을 바로 편집합니다." data-en="Edit the selected node's function, condition and timeout, and the unit's Lua file and project.json right there.">선택한 노드의 함수·조건·타임아웃을 고치고, 그 유닛의 Lua 파일과 project.json을 바로 편집합니다.</dd>
+          <dt data-ko="아래 · 실행 정보" data-en="Bottom · Run panels">아래 · 실행 정보</dt><dd data-ko="타임라인, 토큰, 디버그(호출 스택·변수), 공유 변수, 메시지 탭." data-en="Timeline, tokens, debug (call stack, variables), shared variables and messages.">타임라인, 토큰, 디버그(호출 스택·변수), 공유 변수, 메시지 탭.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 8. Roadmap -->
+    <section class="roadmap-band" aria-labelledby="roadmap-heading">
+      <div class="section-width section-space">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-ko="다음 단계 · 계획" data-en="What's next · planned">다음 단계 · 계획</p>
+          <h2 id="roadmap-heading"><span data-ko="설비는 컨트롤러," data-en="The machine is the controller,">설비는 컨트롤러,</span> <span class="accent" data-ko="Studio는 티칭 펜던트." data-en="Studio is the teach pendant.">Studio는 티칭 펜던트.</span></h2>
+          <p data-ko="로봇 컨트롤러와 티칭 펜던트처럼 운영하는 방향으로 넓혀 갑니다. 아래는 계획이며 버전마다 순서대로 들어옵니다." data-en="We are extending Flow Studio to work like a robot controller with a teach pendant. These items are planned and will arrive release by release.">로봇 컨트롤러와 티칭 펜던트처럼 운영하는 방향으로 넓혀 갑니다. 아래는 계획이며 버전마다 순서대로 들어옵니다.</p>
+        </div>
+        <ol class="roadmap reveal">
+          <li><b data-ko="항상 열린 접속" data-en="Always reachable">항상 열린 접속</b><span data-ko="설비 프로그램이 켜져 있으면 Flow가 없어도 Studio가 붙어 상태를 봅니다. 프로젝트는 MANUAL에서 재시작 없이 바꿉니다." data-en="Studio can attach whenever the equipment program runs, even without a flow; switch projects in MANUAL without restarting.">설비 프로그램이 켜져 있으면 Flow가 없어도 Studio가 붙어 상태를 봅니다. 프로젝트는 MANUAL에서 재시작 없이 바꿉니다.</span></li>
+          <li><b data-ko="설비에 버전 보관" data-en="Versions on the machine">설비에 버전 보관</b><span data-ko="적용한 흐름을 설비가 버전으로 보관하고, 누가 언제 무엇을 바꿨는지 기록하며, 화면에서 되돌립니다." data-en="The machine keeps applied flows as versions, records who changed what and when, and rolls back from its screen.">적용한 흐름을 설비가 버전으로 보관하고, 누가 언제 무엇을 바꿨는지 기록하며, 화면에서 되돌립니다.</span></li>
+          <li><b data-ko="펜던트 모드" data-en="Pendant mode">펜던트 모드</b><span data-ko="설비 화면의 [플로우] 버튼 한 번으로 Studio가 그 설비에 붙어 지금 도는 흐름을 엽니다." data-en="One button on the equipment screen opens Studio attached to that machine with the flow it is running.">설비 화면의 [플로우] 버튼 한 번으로 Studio가 그 설비에 붙어 지금 도는 흐름을 엽니다.</span></li>
+          <li><b data-ko="승인 후 적용" data-en="Apply after approval">승인 후 적용</b><span data-ko="노트북에서 고친 흐름을 설비로 보내면, 설비 앞 작업자가 바뀐 유닛과 파일을 확인하고 승인해야 적용됩니다. Studio마다 보기·디버그·배포 권한을 나눕니다." data-en="Changes sent from a laptop are applied only after the operator at the machine reviews the changed units and files and approves. Each Studio gets view, debug or deploy rights.">노트북에서 고친 흐름을 설비로 보내면, 설비 앞 작업자가 바뀐 유닛과 파일을 확인하고 승인해야 적용됩니다. Studio마다 보기·디버그·배포 권한을 나눕니다.</span></li>
+          <li><b data-ko="모델별 값" data-en="Per-model values">모델별 값</b><span data-ko="설비 프로그램의 모델 변경을 그대로 따르고, 흐름은 지금 모델의 값을 읽습니다." data-en="Flows follow the equipment program's model change and read the current model's values.">설비 프로그램의 모델 변경을 그대로 따르고, 흐름은 지금 모델의 값을 읽습니다.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 9. FAQ -->
+    <section class="section-width section-space" id="faq" aria-labelledby="faq-heading">
+      <div class="section-heading reveal">
+        <p class="eyebrow" data-ko="시작하기 전에" data-en="Before you start">시작하기 전에</p>
+        <h2 id="faq-heading" data-ko="궁금했던 것들." data-en="A few good questions.">궁금했던 것들.</h2>
+      </div>
+      <div class="faq-list reveal">
+        <details><summary data-ko="기존 MFC 코드를 다 바꿔야 하나요?" data-en="Do I have to rewrite my MFC code?">기존 MFC 코드를 다 바꿔야 하나요?</summary><p data-ko="아니요. 장치 제어·인터록·알람·화면은 그대로 두고, 공정 순서를 담던 스레드의 단계만 Flow 유닛으로 옮깁니다. 설비 프로그램에는 엔진 DLL과 장치 이름을 등록하는 연결 코드(바인딩)를 넣습니다. 유닛 하나부터 시작해 하나씩 늘릴 수 있습니다." data-en="No. Device control, interlocks, alarms and screens stay as they are; only the step logic of the sequence threads moves into Flow units. The equipment program gains the engine DLL and a binding that registers device names. Start with one unit and grow.">아니요. 장치 제어·인터록·알람·화면은 그대로 두고, 공정 순서를 담던 스레드의 단계만 Flow 유닛으로 옮깁니다. 설비 프로그램에는 엔진 DLL과 장치 이름을 등록하는 연결 코드(바인딩)를 넣습니다. 유닛 하나부터 시작해 하나씩 늘릴 수 있습니다.</p></details>
+        <details><summary data-ko="설비 PC가 인터넷에 연결되어 있지 않아도 되나요?" data-en="Does the equipment PC need internet access?">설비 PC가 인터넷에 연결되어 있지 않아도 되나요?</summary><p data-ko="됩니다. Studio는 .NET 설치 없이 폴더 하나로 실행되고, 라이선스 인증도 텍스트 코드나 QR로 오프라인에서 끝납니다. 업데이트 확인만 인터넷을 쓰며, 실패해도 작업을 막지 않습니다." data-en="Yes. Studio runs from a single folder without installing .NET, and license activation completes offline with a text code or QR. Only update checks use the internet, and a failed check never blocks your work.">됩니다. Studio는 .NET 설치 없이 폴더 하나로 실행되고, 라이선스 인증도 텍스트 코드나 QR로 오프라인에서 끝납니다. 업데이트 확인만 인터넷을 쓰며, 실패해도 작업을 막지 않습니다.</p></details>
+        <details><summary data-ko="운전 중에 흐름을 고칠 수 있나요?" data-en="Can I change a flow while the line is running?">운전 중에 흐름을 고칠 수 있나요?</summary><p data-ko="운전 중에는 보고, 멈추고, 변수 값을 바꿔 보는 디버깅까지 합니다. 그래프와 스크립트를 바꾼 흐름은 설비를 MANUAL·정지 상태로 두고 적용합니다. 설비가 바뀐 유닛만 초기화부터 다시 시작하게 하는 방식은 다음 단계에서 들어옵니다(계획)." data-en="While running you can watch, pause and try variable values. Changes to graphs and scripts are applied with the machine in MANUAL and stopped; having the machine restart only the changed units from initialisation is planned for an upcoming release.">운전 중에는 보고, 멈추고, 변수 값을 바꿔 보는 디버깅까지 합니다. 그래프와 스크립트를 바꾼 흐름은 설비를 MANUAL·정지 상태로 두고 적용합니다. 설비가 바뀐 유닛만 초기화부터 다시 시작하게 하는 방식은 다음 단계에서 들어옵니다(계획).</p></details>
+        <details><summary data-ko="Studio가 꺼지면 설비도 멈추나요?" data-en="Does the machine stop when Studio closes?">Studio가 꺼지면 설비도 멈추나요?</summary><p data-ko="아니요. 흐름은 설비 프로그램 안의 엔진이 돌립니다. Studio는 붙었다 떨어지는 도구일 뿐이고, 디버그 중에 연결이 끊기면 중단점만 지우고 멈춘 유닛은 작업자가 확인할 때까지 그대로 둡니다." data-en="No. The engine inside the equipment program runs the flow; Studio only attaches and detaches. If a debug connection drops, breakpoints are cleared and paused units stay paused until an operator checks them.">아니요. 흐름은 설비 프로그램 안의 엔진이 돌립니다. Studio는 붙었다 떨어지는 도구일 뿐이고, 디버그 중에 연결이 끊기면 중단점만 지우고 멈춘 유닛은 작업자가 확인할 때까지 그대로 둡니다.</p></details>
+        <details><summary data-ko="다른 PC에서 접속하는 것은 안전한가요?" data-en="Is remote access safe?">다른 PC에서 접속하는 것은 안전한가요?</summary><p data-ko="원격 연결은 TLS로 암호화하고, Studio는 페어링 때 기억한 설비 키와 다르면 붙지 않습니다. 설비는 라이선스가 있고 페어링된 Studio만 받으며, 원격에서는 시작·정지를 할 수 없습니다. 인터넷에 직접 여는 것은 지원하지 않고 사내망이나 VPN에서 씁니다." data-en="Remote links are TLS-encrypted, and Studio refuses a machine whose key differs from the one remembered at pairing. The machine accepts only licensed, paired Studios, and start and stop are never available remotely. Exposure to the open internet is not supported; use the plant network or a VPN.">원격 연결은 TLS로 암호화하고, Studio는 페어링 때 기억한 설비 키와 다르면 붙지 않습니다. 설비는 라이선스가 있고 페어링된 Studio만 받으며, 원격에서는 시작·정지를 할 수 없습니다. 인터넷에 직접 여는 것은 지원하지 않고 사내망이나 VPN에서 씁니다.</p></details>
+        <details><summary data-ko="라이선스는 어떻게 되나요?" data-en="How does licensing work?">라이선스는 어떻게 되나요?</summary><p data-ko="Flow Studio는 기기 라이선스로 동작합니다. 인증 파일이 가리키는 PC에서만 열리고, 없으면 인증 화면만 보입니다. 설비 프로그램에 넣는 런타임과 MFC 연결 자료는 라이선스 없이 쓸 수 있습니다. 설치본·매뉴얼·SDK는 라이선스를 발급할 때 함께 전달합니다." data-en="Flow Studio uses device licenses: it opens only on the PC named in the license file and otherwise shows the activation screen. The runtime and MFC integration kit you ship inside the equipment program need no license. The installer, manuals and SDK are delivered together with the license.">Flow Studio는 기기 라이선스로 동작합니다. 인증 파일이 가리키는 PC에서만 열리고, 없으면 인증 화면만 보입니다. 설비 프로그램에 넣는 런타임과 MFC 연결 자료는 라이선스 없이 쓸 수 있습니다. 설치본·매뉴얼·SDK는 라이선스를 발급할 때 함께 전달합니다.</p></details>
+        <details><summary data-ko="장비 없이 배울 수 있나요?" data-en="Can I learn without hardware?">장비 없이 배울 수 있나요?</summary><p data-ko="네. 예제 프로젝트와 내장 시뮬레이터로 사무실 PC에서 처음부터 끝까지 돌려 볼 수 있습니다. 매뉴얼에는 초보자 안내, Lua 교육 자료(실제 설비 스크립트를 한 줄씩 읽기), 경우별 흐름 구성 예(병렬·동기화·잠금·재시도·타임아웃), MFC 도입 절차, 실제 설비 예제가 들어 있습니다." data-en="Yes. Example projects and the built-in simulator run end to end on an office PC. The manuals include a beginner guide, a Lua course that reads real equipment scripts line by line, flow patterns (parallel, sync, locks, retries, timeouts), MFC integration steps and a real equipment example.">네. 예제 프로젝트와 내장 시뮬레이터로 사무실 PC에서 처음부터 끝까지 돌려 볼 수 있습니다. 매뉴얼에는 초보자 안내, Lua 교육 자료(실제 설비 스크립트를 한 줄씩 읽기), 경우별 흐름 구성 예(병렬·동기화·잠금·재시도·타임아웃), MFC 도입 절차, 실제 설비 예제가 들어 있습니다.</p></details>
+      </div>
+    </section>
+
+    <!-- 10. Policy -->
+    <section class="policy-band" id="policy" aria-labelledby="policy-heading">
+      <div class="section-width section-space policy-layout">
+        <div class="reveal">
+          <p class="eyebrow" data-ko="배포와 업데이트" data-en="Releases and updates">배포와 업데이트</p>
+          <h2 id="policy-heading"><span data-ko="배포는 서명으로." data-en="Releases are signed.">배포는 서명으로.</span><br><span data-ko="업데이트는 내 시간에." data-en="Updates on your time.">업데이트는 내 시간에.</span></h2>
+        </div>
+        <div class="policy-items reveal">
+          <article><h3 data-ko="서명된 업데이트 정보" data-en="Signed update information">서명된 업데이트 정보</h3><p data-ko="Studio는 시작할 때와 4시간마다 서명된 업데이트 정보를 확인합니다. 서명 검증 키는 프로그램에 들어 있어 내려받은 파일의 크기·해시·서명·버전이 모두 맞아야 설치합니다." data-en="Studio checks signed update information at start and every four hours. The verification key is built in, and a package installs only when size, hash, signature and version all match.">Studio는 시작할 때와 4시간마다 서명된 업데이트 정보를 확인합니다. 서명 검증 키는 프로그램에 들어 있어 내려받은 파일의 크기·해시·서명·버전이 모두 맞아야 설치합니다.</p></article>
+          <article><h3 data-ko="자동 교체 없음" data-en="No silent replacement">자동 교체 없음</h3><p data-ko="새 버전은 알림만 띄웁니다. 받을지, 지금 바꿀지, 닫을 때 바꿀지는 사용자가 정하고, 실패하면 이전 버전으로 되돌립니다. 이전 버전으로 내려가는 업데이트는 막습니다." data-en="A new version only shows a notice. You decide whether to download and whether to switch now or on close; a failed update restores the previous version, and downgrades are blocked.">새 버전은 알림만 띄웁니다. 받을지, 지금 바꿀지, 닫을 때 바꿀지는 사용자가 정하고, 실패하면 이전 버전으로 되돌립니다. 이전 버전으로 내려가는 업데이트는 막습니다.</p></article>
+          <article><h3 data-ko="한 번 게시한 버전은 그대로" data-en="Published versions never change">한 번 게시한 버전은 그대로</h3><p data-ko="같은 버전의 파일은 다시 올리지 않습니다. 바뀐 것은 언제나 새 버전 번호를 받습니다. 설정과 프로젝트는 업데이트가 건드리지 않습니다." data-en="Files for a published version are never replaced; every change gets a new version number. Updates never touch your settings or projects.">같은 버전의 파일은 다시 올리지 않습니다. 바뀐 것은 언제나 새 버전 번호를 받습니다. 설정과 프로젝트는 업데이트가 건드리지 않습니다.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-width footer-top">
+      <a class="brand" href="#top"><img src="assets/flowstudio.svg" width="30" height="30" alt=""><span>Flow Studio</span></a>
+      <div class="footer-links">
+        <a href="EULA-FlowStudio.txt" data-ko="사용권 계약" data-en="EULA">사용권 계약</a>
+        <a href="THIRD-PARTY-NOTICES.txt" data-ko="타사 고지" data-en="Third-party notices">타사 고지</a>
+        <a href="https://github.com/Rubiya82/FlowStudio-release/issues" data-ko="문의" data-en="Contact">문의</a>
+      </div>
+    </div>
+    <div class="section-width footer-bottom">
+      <p data-ko="문의는 Issues로 남겨 주세요. 인증 파일과 기기 정보 파일은 올리지 마세요." data-en="Please use Issues for questions. Never attach license or device files.">문의는 Issues로 남겨 주세요. 인증 파일과 기기 정보 파일은 올리지 마세요.</p>
+      <p>Copyright © 2026 Samsung Electronics Co., Ltd.</p>
+    </div>
+  </footer>
+</body>
+</html>

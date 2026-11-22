@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Flow Studio">
+  <defs>
+    <linearGradient id="fs-bg" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#1b3f5e"/>
+      <stop offset="0.55" stop-color="#112a42"/>
+      <stop offset="1" stop-color="#0a1828"/>
+    </linearGradient>
+    <radialGradient id="fs-glow" cx="0.28" cy="0.18" r="0.75">
+      <stop offset="0" stop-color="#5fb8d6" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5fb8d6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fs-wire" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3fe0c5"/>
+      <stop offset="0.5" stop-color="#7ea8ff"/>
+      <stop offset="1" stop-color="#ffb65c"/>
+    </linearGradient>
+    <linearGradient id="fs-a" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5cf0d6"/>
+      <stop offset="1" stop-color="#1fb8a6"/>
+    </linearGradient>
+    <linearGradient id="fs-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a4c2ff"/>
+      <stop offset="1" stop-color="#5a85f2"/>
+    </linearGradient>
+    <linearGradient id="fs-c" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd08a"/>
+      <stop offset="1" stop-color="#f59a32"/>
+    </linearGradient>
+    <filter id="fs-shadow" x="-30%" y="-40%" width="160%" height="200%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#020a14" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <!-- 바탕: 둥근 사각형, 왼쪽 위 빛 -->
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#fs-bg)"/>
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#fs-glow)"/>
+  <rect x="9" y="9" width="238" height="238" rx="57" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2"/>
+  <!-- 흐름: 위 노드 → 오른쪽 노드 → 아래 노드 -->
+  <path d="M96 76 H148 C174 76 182 94 182 128 C182 162 174 180 148 180 H96" fill="none" stroke="url(#fs-wire)" stroke-width="10" stroke-linecap="round"/>
+  <g filter="url(#fs-shadow)">
+    <rect x="48" y="56" width="88" height="40" rx="14" fill="url(#fs-a)"/>
+    <rect x="132" y="108" width="88" height="40" rx="14" fill="url(#fs-b)"/>
+    <rect x="48" y="160" width="88" height="40" rx="14" fill="url(#fs-c)"/>
+  </g>
+  <!-- 노드 윗면 빛, 포트 -->
+  <g fill="#ffffff" fill-opacity="0.22">
+    <rect x="58" y="59" width="68" height="3" rx="1.5"/>
+    <rect x="142" y="111" width="68" height="3" rx="1.5"/>
+    <rect x="58" y="163" width="68" height="3" rx="1.5"/>
+  </g>
+  <g fill="#0d2236" fill-opacity="0.55">
+    <circle cx="122" cy="76" r="5.5"/>
+    <circle cx="146" cy="128" r="5.5"/>
+    <circle cx="122" cy="180" r="5.5"/>
+  </g>
+</svg>

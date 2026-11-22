@@ -4,6 +4,8 @@ This repository publishes Flow Studio update packages only. It contains no sourc
 
 이 저장소는 Flow Studio 업데이트 패키지만 게시합니다. 소스 코드, 매뉴얼, SDK는 없습니다.
 
+Product overview / 제품 소개: https://rubiya82.github.io/FlowStudio-release/
+
 | File | Purpose |
 | --- | --- |
 | [Releases](../../releases) `FlowStudio-<version>-win-x64.zip` | Flow Studio installation folder (Studio, engine, validator, samples). Used by the built-in updater |
