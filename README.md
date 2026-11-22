@@ -9,7 +9,8 @@ Product overview / 제품 소개: https://rubiya82.github.io/FlowStudio-release/
 | File | Purpose |
 | --- | --- |
 | [Releases](../../releases) `FlowStudio-<version>-win-x64.zip` | Flow Studio installation folder (Studio, engine, validator, samples). Used by the built-in updater |
-| `version.json`, `beta/version.json` | Signed update information for the stable and beta channels (ECDSA P-256) |
+| `version.json`, `beta/version.json` | Signed feeds for the runtime-inclusive transition releases |
+| `framework-dependent/version.json`, `beta/framework-dependent/version.json` | Signed feeds for lightweight releases (.NET 10 Desktop Runtime x64) |
 | `update-public-key.pem` | Public key that verifies `version.json`. The same key is built into Flow Studio |
 | `EULA-FlowStudio.txt` | Flow Studio end user license agreement |
 | `THIRD-PARTY-NOTICES.txt` | Third-party notices |
